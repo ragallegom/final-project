@@ -33,11 +33,12 @@ export default {
     data() {
         return {
             fields: [
+                { key: 'corpus_type', label: 'Type'},
                 { key: 'corpus', label: 'Corpus' },
                 { key: 'description', label: 'Descripción' },
                 { key: 'action', label: '' },
             ],
-            corpus: []
+            corpus: [],
         }
     },
     methods: {

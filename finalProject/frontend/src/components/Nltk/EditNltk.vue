@@ -11,6 +11,12 @@
                     <div class="card-body">
                         <form @submit="onSubmit">
                             <div class="form-group row">
+                                <label for="corpus" class="col-sm-2 col-form-label">Tipo</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="corpus_type" class="form-control" v-model.trim="form.corpus_type" disabled></input>
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label for="corpus" class="col-sm-2 col-form-label">Corpus</label>
                                 <div class="col-sm-6">
                                     <input type="text" placeholder="Corpus" name="corpus" class="form-control" v-model.trim="form.corpus"></input>
@@ -45,6 +51,7 @@ export default {
         return {
             corpusId: this.$route.params.corpusId,
             form: {
+                corpus_type: '',
                 corpus: '',
                 description: ''
             }
@@ -59,6 +66,7 @@ export default {
             axios.put(path, this.form).then((response) => {
                 this.form.corpus = response.data.corpus
                 this.form.description = response.data.description
+                this.form.corpus_type = response.data.corpus_type
 
                 swal("Libro actualizado exitosamente!", "", "success")
             })
@@ -73,6 +81,7 @@ export default {
             axios.get(path).then((response) => {
                 this.form.corpus = response.data.corpus
                 this.form.description = response.data.description
+                this.form.corpus_type = response.data.corpus_type
             })
             .catch((error) => {
                 console.log(error)

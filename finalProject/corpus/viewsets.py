@@ -32,7 +32,7 @@ class corpusViewSet(viewsets.ViewSet):
         serializer = serializers.corpusSerializer(data=request.data)
         
         if serializer.is_valid():
-
+ 
             corpus_sum =['plus','plu','+']
             corpus_mul =['mul','*']
             corpus_minus =['minus']
