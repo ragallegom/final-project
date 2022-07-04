@@ -53,6 +53,8 @@ class corpusViewSet(viewsets.ViewSet):
             sentence_in_quote = sent_tokenize(request.data['corpus'])
             result['sentences'] = sentence_in_quote
 
+            flag_operating = True
+
             for sentence in sentence_in_quote:
                 filtered_list = []
 
@@ -74,17 +76,28 @@ class corpusViewSet(viewsets.ViewSet):
 
                 if check_eq :
                     for word in lemmatized_words:
-                        if word.casefold() in corpus_sum:
-                            equation += '+'
-                        elif word.casefold() in corpus_mul:
-                            equation += '*'
-                        elif word.casefold() in corpus_div:
-                            equation += '/'
-                        elif word.casefold() in corpus_minus:
-                            equation += '-'
-                        elif word.casefold() in corpus_eq:
-                            equation += ')=('
+                        if (word.casefold() in corpus_sum):
+                            if flag_operating:
+                                flag_operating = False
+                                equation += '+'
+                        elif (word.casefold() in corpus_mul):
+                            if flag_operating:
+                                flag_operating = False
+                                equation += '*'
+                        elif (word.casefold() in corpus_div): 
+                            if flag_operating:
+                                flag_operating = False
+                                equation += '/'
+                        elif (word.casefold() in corpus_minus):
+                            if flag_operating:
+                                flag_operating = False
+                                equation += '-'
+                        elif (word.casefold() in corpus_eq):
+                            if flag_operating:
+                                flag_operating = False
+                                equation += ')=('
                         else:
+                            flag_operating = True
                             equation += word
                     equations.append(equation + ')')
             
