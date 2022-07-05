@@ -6,7 +6,7 @@
             <template #lead>
                 Sistema de Software en Python con librerías NLTK
                 (Natural Language Tool Kit) para identificar en un texto en inglés un
-                elemento (objetivos, eventos, requisitos, problemas, ecuaciones) y lo
+                elemento (ecuación) y lo
                 traduzca en lenguaje controlado.
             </template>
 

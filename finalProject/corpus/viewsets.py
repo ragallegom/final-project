@@ -13,6 +13,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk_identify.models import Nltk
 
 from word2number import w2n
+import PyPDF2
 
 stop_words = set(stopwords.words("english"))
 
@@ -42,8 +43,22 @@ class corpusViewSet(viewsets.ViewSet):
 
     def create(self, request):
         serializer = serializers.corpusSerializer(data=request.data)
-        
-        if serializer.is_valid():
+        flag_file = False
+
+        if request.FILES:
+            file = request.FILES['file']
+            pdfReader = PyPDF2.PdfFileReader(file) 
+            pageObj = pdfReader.getPage(0) 
+            corpus_file = pageObj.extractText()
+            flag_file = True
+
+        if serializer.is_valid() or flag_file:
+            
+            if flag_file:
+                corpus = corpus_file
+                corpus = corpus.replace('.', '. ')
+            else:
+                corpus = request.data['corpus']
 
             result = {}
             words_list = []
@@ -52,7 +67,7 @@ class corpusViewSet(viewsets.ViewSet):
             equations = []
             binary_exp_tree_list = []
 
-            sentence_in_quote = sent_tokenize(request.data['corpus'])
+            sentence_in_quote = sent_tokenize(corpus)
             result['sentences'] = sentence_in_quote
 
             flag_operating = True

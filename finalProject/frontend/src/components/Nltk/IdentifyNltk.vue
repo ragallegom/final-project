@@ -1,8 +1,12 @@
 <template lang="html">
     <div class="container">
         <div class="row">
-            <div class="col text-left">
+
+            <div class="col-sm-8 text-left">
                 <h2>Identificar</h2>
+            </div>
+            <div class="col-sm-4">
+                <b-button to="/" squared variant="primary">Inicio</b-button>
             </div>
         </div>
         <div class="row">
@@ -17,9 +21,24 @@
                                         v-model.trim="form.corpus"></textarea>
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-6">
+                                    <b-form-file
+                                    ref="file-input"
+                                    accept=".pdf"
+                                    v-model="file"
+                                    :state="Boolean(file)"
+                                    placeholder="Elige o arrastra el archivo"
+                                    drop-placeholder="Drop file here..."
+                                    ></b-form-file>
+                                     <p class="mt-2">Archivo seleccionado: <b>{{ file ? file.name : '' }}</b></p>
+                                </div>
+                            </div>
                             <div class=" rows">
                                 <div class="col text-left">
                                     <b-button type="submit" variant="primary">Identificar</b-button>
+                                    <b-button @click="submitFile" variant="warning">Subir Archivo</b-button>
                                     <b-button @click="resetResult" variant="danger">Limpiar</b-button>
                                 </div>
                             </div>
@@ -161,6 +180,8 @@ export default {
             lemmatization: [],
             equations: [],
             binaryExpTree: [],
+            file: null,
+            docs: null
         }
     },
     methods: {
@@ -183,11 +204,33 @@ export default {
                 swal("Texto identificado correctamente!", "", "success")
             })
             .catch((error) => {
-                swal("Error al identificar!", "", "error")
+                swal("Error al identificar!", "Es necesario ingresar un texto", "error")
             })
         },
         resetResult (evt) {
             this.showResult = false
+        },
+        submitFile() {
+            const formData = new FormData();
+            formData.append('file', this.file);
+
+            const headers = { 'Content-Type': 'multipart/form-data' };
+            const path = 'http://localhost:8000/api/v1.0/identify/'
+
+            axios.post(path, formData, { headers }).then((response) => {
+                this.showResult = true
+                this.sent_tokenize = response.data['sentences']
+                this.word_tokenize = response.data['words']
+                this.stopwords = response.data['stopwords']
+                this.lemmatization = response.data['lemmatization']
+                this.equations = response.data['equations']
+                this.binaryExpTree = response.data['binaryExpTree']
+
+                swal("Texto identificado correctamente!", "", "success")
+            })
+            .catch((error) => {
+                swal("Error al identificar!", "Es necesario adjuntar un archivo .pdf", "error")
+            });
         }
     },
     created() {

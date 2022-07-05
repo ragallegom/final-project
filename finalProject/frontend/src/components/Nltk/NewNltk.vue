@@ -1,8 +1,11 @@
 <template lang="html">
     <div class="container">
         <div class="row">
-            <div class="col text-left">
+            <div class="col-sm-8 text-left">
                 <h2>Nuevo Corpus</h2>
+            </div>
+            <div class="col-sm-4">
+                <b-button to="/" squared variant="primary">Inicio</b-button>
             </div>
         </div>
         <div class="row">

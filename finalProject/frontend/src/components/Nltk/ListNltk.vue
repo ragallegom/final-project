@@ -2,11 +2,16 @@
     <div class="container">
         <div class="row">
             <div class="col text-left">
-                <div>
-                    <h2>Listado del Corpus</h2>
-                    <b-button size="sm" :to="{ name:'NewNltk' }" variant="primary">
-                        Nuevo corpus
-                    </b-button>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h2>Listado del Corpus</h2>
+                        <b-button size="sm" :to="{ name:'NewNltk' }" variant="primary">
+                            Nuevo corpus
+                        </b-button>
+                    </div>
+                    <div class="col-sm-4">
+                        <b-button to="/" squared variant="primary">Inicio</b-button>
+                    </div>
                 </div>
                 <br>
                 <div class="col-md-12">
