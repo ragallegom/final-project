@@ -12,6 +12,8 @@ from nltk.stem import WordNetLemmatizer
 
 from nltk_identify.models import Nltk
 
+from word2number import w2n
+
 stop_words = set(stopwords.words("english"))
 
 object_addition = Nltk.objects.filter(corpus_type="addition")
@@ -98,7 +100,12 @@ class corpusViewSet(viewsets.ViewSet):
                                 equation += ')=('
                         else:
                             flag_operating = True
-                            equation += word
+                            try:
+                                word = w2n.word_to_num(word)
+                                equation += str(word)
+                            except:
+                                equation += word
+                                
                     equations.append(equation + ')')
             
             for eq in equations:
