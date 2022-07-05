@@ -1,8 +1,11 @@
 <template lang="html">
     <div class="container">
         <div class="row">
-            <div class="col text-left">
+            <div class="col-sm-8 text-left">
                 <h2>Nuevo Corpus</h2>
+            </div>
+            <div class="col-sm-4">
+                <b-button to="/" squared variant="primary">Inicio</b-button>
             </div>
         </div>
         <div class="row">
@@ -10,6 +13,12 @@
                 <div class="card">
                     <div class="card-body">
                         <form @submit="onSubmit">
+                            <div class="form-group row">
+                                <label for="corpus" class="col-sm-2 col-form-label">Tipo</label>
+                                <div class="col-sm-6">
+                                    <b-form-select v-model="form.corpus_type" :options="corpus_type"></b-form-select>
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 <label for="corpus" class="col-sm-2 col-form-label">Corpus</label>
                                 <div class="col-sm-6">
@@ -45,8 +54,17 @@ export default {
         return {
             form: {
                 corpus: '',
-                description: ''
-            }
+                description: '',
+                corpus_type: 'multiplication'
+            },
+            corpus_type: [
+                { value: 'multiplication', text: 'MULTIPLICATION' },
+                { value: 'division', text: 'DIVISION' },
+                { value: 'addition', text: 'ADDITION' },
+                { value: 'subtraction', text: 'SUBTRACTION' },
+                { value: 'equality', text: 'EQUALITY' },
+                { value: 'stop_words', text: 'STOP_WORDS' }
+            ]
         }
     },
     methods: {

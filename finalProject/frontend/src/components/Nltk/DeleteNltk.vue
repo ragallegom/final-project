@@ -1,6 +1,11 @@
 <template lang="html">
     <div class="container">
         <div class="row">
+            <div class="col text-right">  
+                <b-button to="/" squared variant="primary">Inicio</b-button>
+            </div>
+        </div>
+        <div class="row">
             <div class="col">
                 <h3>¿Estas seguro que deseas eliminar este libro?</h3>
                 <p>Corpus : {{ this.element.corpus }}</p>
